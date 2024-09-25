@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import Peer, { MediaConnection } from "peerjs";
 import io, { Socket } from "socket.io-client";
 import { UserIcon } from 'lucide-react'; 
+import { useRouter } from 'next/navigation';
+
 
 let socket: Socket;
 
@@ -16,6 +18,7 @@ export default function MeetingRoom({ params }: { params: { id: string } }) {
   const userVideo = useRef<HTMLVideoElement>(null);
   const peersRef = useRef<{ [key: string]: MediaConnection }>({});
   const peerInstance = useRef<Peer | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     socketInitializer();
@@ -128,6 +131,7 @@ export default function MeetingRoom({ params }: { params: { id: string } }) {
     cleanup();
     // TODO 통화 종료 후 리다이렉트 로직을 추가
     // 예) router.push('/');
+    router.push('/');
   };
 
   const cleanup = () => {
@@ -136,6 +140,7 @@ export default function MeetingRoom({ params }: { params: { id: string } }) {
     if (screenShare) screenShare.getTracks().forEach((track) => track.stop());
     if (peerInstance.current) peerInstance.current.destroy();
   };
+
 
   const toggleAudio = () => {
     if (stream) {
