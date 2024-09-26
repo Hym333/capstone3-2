@@ -21,49 +21,54 @@ export default function MeetingRoom({ params }: { params: { id: string } }) {
   const router = useRouter();
 
   useEffect(() => {
-    socketInitializer();
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        setStream(stream);
-        if (userVideo.current) userVideo.current.srcObject = stream;
-        setHasCamera(true);
-      })
-      .catch((error) => {
-        console.error("Error accessing media devices:", error);
-        setHasCamera(false);
-        // 오디오만 사용하는 스트림 생성
-        return navigator.mediaDevices.getUserMedia({ audio: true });
-      })
-      .then((audioOnlyStream) => {
-        if (audioOnlyStream) {
-          setStream(audioOnlyStream);
-        }
-        const peer = new Peer();
-        peerInstance.current = peer;
-
-        peer.on("open", (id) => {
-          socket.emit("join-room", params.id, id);
-        });
-
-        peer.on("call", (call: MediaConnection) => {
-          call.answer(audioOnlyStream || new MediaStream());
-          call.on("stream", (userVideoStream: MediaStream) => {
-            addVideoStream(call.peer, userVideoStream);
+    const initialize = async () => {
+      await socketInitializer(); // Ensure socket is initialized before attaching listeners
+  
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          setStream(stream);
+          if (userVideo.current) userVideo.current.srcObject = stream;
+          setHasCamera(true);
+        })
+        .catch((error) => {
+          console.error("Error accessing media devices:", error);
+          setHasCamera(false);
+          return navigator.mediaDevices.getUserMedia({ audio: true });
+        })
+        .then((audioOnlyStream) => {
+          if (audioOnlyStream) {
+            setStream(audioOnlyStream);
+          }
+  
+          const peer = new Peer();
+          peerInstance.current = peer;
+  
+          peer.on("open", (id) => {
+            socket.emit("join-room", params.id, id); // Ensure socket is ready here
+          });
+  
+          peer.on("call", (call: MediaConnection) => {
+            call.answer(audioOnlyStream || new MediaStream());
+            call.on("stream", (userVideoStream: MediaStream) => {
+              addVideoStream(call.peer, userVideoStream);
+            });
+          });
+  
+          socket.on("user-connected", (userId: string) => {
+            connectToNewUser(userId, audioOnlyStream || new MediaStream());
           });
         });
-
-        socket.on("user-connected", (userId: string) => {
-          connectToNewUser(userId, audioOnlyStream || new MediaStream());
-        });
-      });
-
+    };
+  
+    initialize();
+  
     return () => {
-      cleanup();
+      cleanup(); // Cleanup when component unmounts
     };
   }, [params.id]);
 
+  
   const socketInitializer = async () => {
     await fetch("/api/socket");
     socket = io("/", {
