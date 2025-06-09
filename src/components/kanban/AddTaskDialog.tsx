@@ -232,25 +232,21 @@ export function AddTaskDialog({ isOpen, onClose, onAddTask, projectId }: AddTask
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                placeholder="작업 제목 입력 (엔터키로 연속 추가 가능)"
+                placeholder="작업 제목을 입력하세요"
+                className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 required
-                autoFocus
               />
             </div>
 
             {/* 설명 입력 */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 flex items-center">
-                <AlignLeft className="h-4 w-4 mr-1" />
-                설명
-              </label>
+              <label className="text-sm font-medium text-gray-700">설명</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                placeholder="작업 설명을 입력하세요"
                 rows={3}
-                placeholder="작업에 대한 설명 입력"
+                className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               />
             </div>
 
@@ -262,7 +258,7 @@ export function AddTaskDialog({ isOpen, onClose, onAddTask, projectId }: AddTask
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as TaskStatus)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none appearance-none pr-8"
+                    className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none appearance-none pr-8"
                   >
                     <option value="todo">할 일</option>
                     <option value="in-progress">진행 중</option>
@@ -287,10 +283,10 @@ export function AddTaskDialog({ isOpen, onClose, onAddTask, projectId }: AddTask
                   <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value as "low" | "medium" | "high")}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none appearance-none pr-8"
+                    className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none appearance-none pr-8"
                   >
                     <option value="low">낮음</option>
-                    <option value="medium">중간</option>
+                    <option value="medium">보통</option>
                     <option value="high">높음</option>
                   </select>
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -298,10 +294,6 @@ export function AddTaskDialog({ isOpen, onClose, onAddTask, projectId }: AddTask
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   </div>
-                </div>
-                <div className={`mt-2 text-xs flex items-center gap-1 px-2 py-1 rounded-full ${getPriorityConfig(priority).classes} w-fit`}>
-                  {getPriorityConfig(priority).icon}
-                  {getPriorityConfig(priority).label}
                 </div>
               </div>
             </div>
@@ -315,7 +307,7 @@ export function AddTaskDialog({ isOpen, onClose, onAddTask, projectId }: AddTask
                 </label>
                 <div className="relative">
                   <div 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 outline-none cursor-pointer flex justify-between items-center"
+                    className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:border-blue-500 outline-none cursor-pointer flex justify-between items-center"
                     onClick={() => setShowMembersList(!showMembersList)}
                   >
                     <div className="flex items-center">
@@ -329,7 +321,7 @@ export function AddTaskDialog({ isOpen, onClose, onAddTask, projectId }: AddTask
                       ) : (
                         <>
                           <User className="h-4 w-4 text-gray-400 mr-2" />
-                          <span className="text-gray-500">담당자 선택</span>
+                          <span className="text-gray-500">담당자를 선택하세요</span>
                         </>
                       )}
                     </div>
@@ -338,7 +330,7 @@ export function AddTaskDialog({ isOpen, onClose, onAddTask, projectId }: AddTask
                   
                   {/* 드롭다운 멤버 목록 */}
                   {showMembersList && (
-                    <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 max-h-48 overflow-y-auto">
+                    <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg z-10 max-h-48 overflow-y-auto">
                       {/* Unassigned option */}
                       <div 
                         className={`px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center ${!assignee ? 'bg-blue-50' : ''}`}

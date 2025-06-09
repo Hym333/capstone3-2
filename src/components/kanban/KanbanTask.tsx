@@ -85,7 +85,7 @@ export function KanbanTask({ task, onUpdate, onDelete, theme = "light" }: Kanban
       <div
         ref={setNodeRef}
         onClick={handleClick}
-        className={`${theme === 'dark' ? 'bg-[#2A2A2C] border-gray-700 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-500'} p-3 rounded-md border cursor-pointer transition-all h-auto ${
+        className={`${theme === 'dark' ? 'bg-[#2A2A2C] border-gray-700 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-500'} p-3 rounded border cursor-pointer transition-all h-auto ${
           isDragging ? "opacity-50 scale-95" : ""
         } ${task.status === 'done' ? `border-l-4 ${theme === 'dark' ? 'border-l-green-600' : 'border-l-green-500'}` : ''}`}
       >

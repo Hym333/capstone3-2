@@ -176,7 +176,7 @@ export function KanbanColumn({
     <div
       ref={setNodeRef}
       id={columnElementId}
-      className={`${theme === 'dark' ? 'bg-[#353538] border-gray-700' : 'bg-white border-gray-200'} rounded-lg border shadow-sm overflow-hidden flex flex-col ${
+      className={`${theme === 'dark' ? 'bg-[#353538] border-gray-700' : 'bg-white border-gray-200'} rounded-md border shadow-sm overflow-hidden flex flex-col ${
         isOver ? "ring-2 ring-blue-500" : ""
       }`}
       onMouseEnter={() => setIsHovering(true)}
@@ -217,7 +217,7 @@ export function KanbanColumn({
         {isAddingTask ? (
           <div
             ref={inputContainerRef}
-            className={`mt-2 border ${theme === 'dark' ? 'border-blue-700 bg-[#2A2A2C]' : 'border-blue-300 bg-white'} rounded-md shadow-sm focus-within:border-blue-500`}
+            className={`mt-2 border ${theme === 'dark' ? 'border-blue-700 bg-[#2A2A2C]' : 'border-blue-300 bg-white'} rounded shadow-sm focus-within:border-blue-500`}
           >
             <input
               ref={inputRef}
@@ -226,7 +226,7 @@ export function KanbanColumn({
               onChange={(e) => setNewTaskTitle(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="새 작업을 입력하세요"
-              className={`w-full px-3 py-2 rounded-md outline-none ${theme === 'dark' ? 'bg-[#2A2A2C] text-gray-200 placeholder:text-gray-500' : 'bg-white'}`}
+              className={`w-full px-3 py-2 rounded outline-none ${theme === 'dark' ? 'bg-[#2A2A2C] text-gray-200 placeholder:text-gray-500' : 'bg-white'}`}
             />
             <div className="flex justify-end p-2 border-t">
               <button
